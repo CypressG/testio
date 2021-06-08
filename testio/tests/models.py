@@ -3,32 +3,34 @@ from django.db.models.base import Model
 
 # Create your models here.
 
+class Tags(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    tag = models.CharField(max_length=20)
+
+
 class Tests(models.Model):
-    type = models.CharField()
+    id = models.BigAutoField(primary_key=True)
+    type = models.CharField(max_length=200)
     #fk_user = models.ForeignKey()
 
 class Question(models.Model):
-    id = models.AutoField(primary_key=True)
-    question = models.CharField()
+    id = models.BigAutoField(primary_key=True)
+    question = models.TextField()
     #Tag can be also ManyToMany need to look up
-    tags = models.ForeignKey() 
-    explanation = models.CharField()
-    #right_answer = models.CharField()
-    fk_tests = models.ForeignKey()
+    tags = models.ForeignKey(Tags,on_delete=models.CASCADE) 
+    explanation = models.TextField()
+    fk_tests = models.ForeignKey(Tests,on_delete=models.CASCADE)
 
 class Answer(models.Model):
-    id = models.AutoField(primary_key=True)
-    fk_question = models.ForeignKey()
-    #right_answer = models.BooleanField()
-    right_answer = models.CharField()
-    answer = models.CharField()
-
-class Tags(models.Model):
-    id = models.AutoField(primary_key=True)
-    tag = models.CharField()
+    id = models.BigAutoField(primary_key=True)
+    fk_question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    right_answer = models.BooleanField(default=False)
+    answer = models.CharField(max_length=200)
+    
+    def __str__(self):
+        return self.id 
 
 class Comment(models.Model):
-    id = models.AutoField(primary_key=True)
-    comment = models.CharField()
-    fk_tests = models.ForeignKey(Tests)
-    #fk_user = models.ForeignKey(User)
+    id = models.BigAutoField(primary_key=True)
+    comment = models.CharField(max_length=200)
+    fk_tests = models.ForeignKey(Tests,on_delete=models.CASCADE)
