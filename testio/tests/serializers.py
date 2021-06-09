@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tags, Tests, Question, Answer, Comment
+from .models import Tags, Tests, Question, Answer, Comment,Rating
 
 class TagsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,4 +39,5 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = [
-            'id','ratin
+            'id','rating'
+            ]
