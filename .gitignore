@@ -1,7 +1,6 @@
 .env/pyvenv.cfg
 .env/*
 .env/
-
 .\testio\tests\__pycache__\*
 .\testio\testio\__pycache__\*
 *.pyc
