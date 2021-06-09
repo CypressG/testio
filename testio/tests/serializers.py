@@ -16,13 +16,12 @@ class TestsSerializer(serializers.ModelSerializer):
             'id','type'
         ]
 
-<<<<<<< HEAD
 class CommentsSerializers(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
             'id','comment', 'fk_tests'
-=======
+        ]    
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
@@ -35,5 +34,4 @@ class AnswerSerializer(serializers.ModelSerializer):
         model = Answer
         fields = [
             'id','right_answer','answer'
->>>>>>> 0452d719065953461e0f5be869fef3db2be5fe81
         ]
