@@ -45,3 +45,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.fk_tests.type
+
+class rating(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    rating = models.FloatField()
+    fk_tests = models.ForeignKey(Tests,on_delete=models.CASCADE)
