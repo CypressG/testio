@@ -12,12 +12,17 @@ from rest_framework import generics
 from rest_framework import permissions
 
 
+
 class tag(generics.ListCreateAPIView):
     kintamasis = Tags.objects.all()
     queryset = kintamasis
     serializer_class = TagsSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     
+class tagSingle(generics.RetrieveUpdateDestroyAPIView):
+    kintamasis = Tags.objects.all()
+    queryset = kintamasis
+    serializer_class = TagsSerializer
 
 class test(generics.ListAPIView):
     kintamasis = Tests.objects.all()
