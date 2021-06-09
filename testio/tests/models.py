@@ -34,3 +34,8 @@ class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
     comment = models.CharField(max_length=200)
     fk_tests = models.ForeignKey(Tests,on_delete=models.CASCADE)
+
+class Rating(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    rating = models.FloatField()
+    fk_tests = models.ForeignKey(Tests,on_delete=models.CASCADE)
