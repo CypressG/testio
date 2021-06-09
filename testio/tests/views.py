@@ -4,11 +4,7 @@ from django.shortcuts import render
 from .models import Tags, Tests, Question, Answer, Comment
 
 # Importing serializers
-<<<<<<< HEAD
-from .serializers import CommentsSerializers, TagsSerializer,TestsSerializer
-=======
 from .serializers import AnswerSerializer, QuestionSerializer, TagsSerializer,TestsSerializer
->>>>>>> 0452d719065953461e0f5be869fef3db2be5fe81
 
 # Create your views here.
 from rest_framework.parsers import DataAndFiles, JSONParser
@@ -50,7 +46,6 @@ def tests(request):
 
 
 @api_view(['GET','POST','PUT','DELETE'])
-<<<<<<< HEAD
 def comments(request):
     if request.method == 'GET':
         comments = Comment.objects.all()
@@ -62,7 +57,6 @@ def comments(request):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-=======
 def questions(request):
     if request.method == 'GET':
         questions = Question.objects.all()
@@ -90,7 +84,6 @@ def answer(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
->>>>>>> 0452d719065953461e0f5be869fef3db2be5fe81
 
 
 '''
