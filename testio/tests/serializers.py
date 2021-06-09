@@ -11,10 +11,11 @@ class TagsSerializer(serializers.ModelSerializer):
         ]
 
 class TestsSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Tests
         fields = [
-            'id','type'
+            'id','type',
         ]
 
 class CommentsSerializers(serializers.ModelSerializer):
