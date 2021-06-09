@@ -14,3 +14,17 @@ class TestsSerializer(serializers.ModelSerializer):
         fields = [
             'id','type'
         ]
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = [
+            'id','question','tags','explanation'
+        ]
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = [
+            'id','right_answer','answer'
+        ]
