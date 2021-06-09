@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import Tags, Tests, Question, Answer, Comment
 
 # Importing serializers
-from .serializers import AnswerSerializer, QuestionSerializer, TagsSerializer,TestsSerializer
+from .serializers import AnswerSerializer, CommentsSerializers, QuestionSerializer, TagsSerializer,TestsSerializer
 
 # Create your views here.
 from rest_framework.parsers import DataAndFiles, JSONParser
