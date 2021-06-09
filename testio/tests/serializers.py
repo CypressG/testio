@@ -7,3 +7,10 @@ class TagsSerializer(serializers.ModelSerializer):
         fields = [
             'tag',
         ]
+
+class TestsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tests
+        fields = [
+            'id','type'
+        ]

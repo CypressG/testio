@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import Tags, Tests, Question, Answer, Comment
 
 # Importing serializers
-from .serializers import TagsSerializer
+from .serializers import TagsSerializer,TestsSerializer
 
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
@@ -25,6 +25,22 @@ def tags(request):
             serializer.save()
             return JsonResponse(serializer.data,status=201)
         return JsonResponse(serializer.errors, status=400)
+
+
+
+def tests(request):
+    if request.method == 'GET':
+        tags = Tests.objects.all()
+        serializer = TestsSerializer(tags,many=True)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = TestsSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,status=201)
+        return JsonResponse(serializer.errors, status=400)
+
 
 '''
 @csrf_exempt
