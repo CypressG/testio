@@ -6,6 +6,10 @@ __pycache__
 db.sqlite3
 media
 
+# Django pycache apps
+
+testio\testio\__pycache__
+testio\tests\__pycache__
 # Backup files # 
 *.bak 
 
