@@ -4,7 +4,11 @@ from django.shortcuts import render
 from .models import Tags, Tests, Question, Answer, Comment
 
 # Importing serializers
+<<<<<<< HEAD
 from .serializers import CommentsSerializers, TagsSerializer,TestsSerializer
+=======
+from .serializers import AnswerSerializer, QuestionSerializer, TagsSerializer,TestsSerializer
+>>>>>>> 0452d719065953461e0f5be869fef3db2be5fe81
 
 # Create your views here.
 from rest_framework.parsers import DataAndFiles, JSONParser
@@ -34,8 +38,8 @@ def tags(request):
 @api_view(['GET','POST','PUT','DELETE'])
 def tests(request):
     if request.method == 'GET':
-        tags = Tests.objects.all()
-        serializer = TestsSerializer(tags,many=True)
+        tests = Tests.objects.all()
+        serializer = TestsSerializer(tests,many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = TestsSerializer(data=request.data)
@@ -46,6 +50,7 @@ def tests(request):
 
 
 @api_view(['GET','POST','PUT','DELETE'])
+<<<<<<< HEAD
 def comments(request):
     if request.method == 'GET':
         comments = Comment.objects.all()
@@ -57,6 +62,35 @@ def comments(request):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+=======
+def questions(request):
+    if request.method == 'GET':
+        questions = Question.objects.all()
+        serializer = QuestionSerializer(questions,many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = QuestionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET','POST'])
+def answer(request):
+    if request.method == 'GET':
+        answer = Answer.objects.all()
+        serializer = AnswerSerializer(answer,many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = AnswerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+>>>>>>> 0452d719065953461e0f5be869fef3db2be5fe81
 
 
 '''
