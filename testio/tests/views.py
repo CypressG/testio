@@ -34,12 +34,19 @@ class tagsList(mixins.ListModelMixin,
                 generics.GenericAPIView):
     queryset = Tags.objects.all()
     serializer_class = TagsSerializer
+    
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     def post(self, request, *args, **kwargs):
         return self.create(request, *args,**kwargs)
     def put(self, request, *args, **kwargs):
         return self.update(request, *args,**kwargs)
+
+
+class tagsListGeneric(generics.ListAPIView):
+    kintamasis = Tags.objects.all()
+    queryset = kintamasis
+    serializer_class = TagsSerializer
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
