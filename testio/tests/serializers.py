@@ -35,3 +35,8 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = [
             'id','right_answer','answer'
         ]
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = [
+            'id','ratin

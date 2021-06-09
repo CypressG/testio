@@ -7,4 +7,6 @@ urlpatterns = [
     path('comments/',views.comments,name='comments'),
     path('question/',views.questions,name='question'),
     path('answer/',views.answer,name='answer'),
+    path('rating/',views.tests,name='tests'),
+
 ]

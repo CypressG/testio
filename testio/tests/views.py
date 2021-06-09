@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
 # Importing models
-from .models import Tags, Tests, Question, Answer, Comment
+from .models import Tags, Tests, Question, Answer, Comment,Rating
 
 # Importing serializers
-from .serializers import AnswerSerializer, CommentsSerializers, QuestionSerializer, TagsSerializer,TestsSerializer
+from .serializers import AnswerSerializer, CommentsSerializers, QuestionSerializer, RatingSerializer, TagsSerializer,TestsSerializer
 
 # Create your views here.
 from rest_framework.parsers import DataAndFiles, JSONParser
@@ -84,7 +84,14 @@ def answer(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
+@api_view(['GET','POST'])
+def rating(request):
+    if request.method == 'GET':
+        rating = Rating.object.all()
+        serializer = RatingSerializer(rating,many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = RatingSerializer(data=request.data)
 
 '''
 @csrf_exempt
