@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Tags, Tests, Question, Answer, Comment, Rating
+from rest_framework import permissions
 
 class TagsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,3 +41,4 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = [
             'id','rating']
+
