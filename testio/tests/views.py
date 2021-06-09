@@ -104,6 +104,13 @@ def answer(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+class AnswerListGeneric(generics.ListAPIView):
+    kintamasis = Answer.objects.all()
+    queryset = kintamasis
+    serializer_class = AnswerSerializer
+
+
 @api_view(['GET', 'POST'])
 def rating(request):
     if request.method == 'GET':
@@ -112,6 +119,13 @@ def rating(request):
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = RatingSerializer(data=request.data)
+
+
+
+class RatingListGeneric(generics.ListAPIView):
+    kintamasis = Rating.objects.all()
+    queryset = kintamasis
+    serializer_class = RatingSerializer
 
 
 '''

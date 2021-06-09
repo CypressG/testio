@@ -6,7 +6,7 @@ urlpatterns = [
     path('tests/',views.tests,name='tests'),
     path('comments/',views.comments,name='comments'),
     path('question/',views.questions,name='question'),
-    path('answer/',views.answer,name='answer'),
-    path('rating/',views.tests,name='tests'),
+    path('answer/',views.AnswerListGeneric.as_view(),name='answer'),
+    path('rating/',views.RatingListGeneric.as_view(),name='tests'),
 
 ]
