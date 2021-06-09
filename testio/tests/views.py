@@ -62,6 +62,10 @@ def tests(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class testsListGeneric(generics.ListAPIView):
+    kintamasis = Tests.objects.all()
+    queryset = kintamasis
+    serializer_class = TestsSerializer
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def comments(request):
@@ -76,6 +80,11 @@ def comments(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class commentsListGeneric(generics.ListAPIView):
+    kintamasis = Comment.objects.all()
+    queryset = kintamasis
+    serializer_class = CommentsSerializers
+
 
 def questions(request):
     if request.method == 'GET':
@@ -88,6 +97,11 @@ def questions(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class questionsListGeneric(generics.ListAPIView):
+    kintamasis = Question.objects.all()
+    queryset = kintamasis
+    serializer_class = QuestionSerializer
 
 
 @api_view(['GET', 'POST'])
