@@ -1,2 +1,4 @@
 .env/pyvenv.cfg
-
+.env/*
+.\testio\tests\__pycache__\*
+.\testio\testio\__pycache__\*
