@@ -14,3 +14,10 @@ class TestsSerializer(serializers.ModelSerializer):
         fields = [
             'id','type'
         ]
+
+class CommentsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = [
+            'id','comment', 'fk_tests'
+        ]

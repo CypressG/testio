@@ -4,13 +4,14 @@ from django.shortcuts import render
 from .models import Tags, Tests, Question, Answer, Comment
 
 # Importing serializers
-from .serializers import TagsSerializer,TestsSerializer
+from .serializers import CommentsSerializers, TagsSerializer,TestsSerializer
 
 # Create your views here.
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import DataAndFiles, JSONParser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+
 
 @api_view(['GET','POST','PUT','DELETE'])
 def tags(request):
@@ -24,7 +25,11 @@ def tags(request):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
+        
+
+    
 
 @api_view(['GET','POST','PUT','DELETE'])
 def tests(request):
@@ -38,6 +43,20 @@ def tests(request):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET','POST','PUT','DELETE'])
+def comments(request):
+    if request.method == 'GET':
+        comments = Comment.objects.all()
+        serializer = CommentsSerializers(comments, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = serializer = CommentsSerializers(data =request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 '''
