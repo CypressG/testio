@@ -29,8 +29,8 @@ def tags(request):
 @api_view(['GET','POST','PUT','DELETE'])
 def tests(request):
     if request.method == 'GET':
-        tags = Tests.objects.all()
-        serializer = TestsSerializer(tags,many=True)
+        tests = Tests.objects.all()
+        serializer = TestsSerializer(tests,many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = TestsSerializer(data=request.data)
