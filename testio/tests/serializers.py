@@ -8,10 +8,9 @@ class TagsSerializer(serializers.ModelSerializer):
         fields = ['id','tag']
 
 class TestsSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Tests
-        fields = ['id','type',]
+        fields = ['id','type']
 
 class CommentsSerializers(serializers.ModelSerializer):
     class Meta:

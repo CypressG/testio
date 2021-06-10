@@ -1,4 +1,6 @@
+import tests
 from django.http import response
+from rest_framework.response import Response
 from .permissions import IsOwnerOrReadOnly
 from django.shortcuts import render
 
@@ -9,7 +11,7 @@ from .models import Tags, Tests, Question, Answer, Comment, Rating
 from .serializers import AnswerSerializer, CommentsSerializers, QuestionSerializer, RatingSerializer, TagsSerializer, TestsSerializer
 
 # Create your views here.
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework import permissions
 
 from rest_framework.decorators import APIView
@@ -17,13 +19,13 @@ from rest_framework.decorators import APIView
 
 '''
 Tags:
-    1. Vartotojas gali matyti visus tag'us
-    2. Vartotojas gali matyti savo kurtus tag'us
+    1. Vartotojas gali matyti visus tag'us /done 
+    2. Vartotojas gali matyti savo kurtus tag'us /done
     3. Vartotojas gali istrinti visus tag'us
 
 Tests:
-    1. Visi vartotojai gali matyti visus testus
-    2. Vartotojas  gali sukurti savo testa
+    1. Visi vartotojai gali matyti visus testus /done 
+    2. Vartotojas  gali sukurti savo testa 
     3. Vartotojas gali istrinti savo testa
     4. Vartotojas gali papildyti savo testa
     5. Pasaliniai vartotojai gali spresti testa
@@ -55,6 +57,7 @@ class userCreatedTag(generics.ListCreateAPIView):
 class tagSingle(generics.ListCreateAPIView):
     kintamasis = Tags.objects.all()
     serializer_class = TagsSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     def get_queryset(self):
         return Tags.objects.all().filter(fk_user=self.request.user)
 
@@ -66,11 +69,37 @@ class test(generics.ListAPIView):
     serializer_class = TestsSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class testSingle(generics.ListAPIView):
+    
+
+class testSingle(APIView):
     serializer_class = TestsSerializer
     permission_classes = [permissions.IsAuthenticated]
-    def get_queryset(self):
-        return Tests.objects.all().filter(fk_user=self.request.user)
+
+    def get_object(self, user):
+        try:
+            return Tests.objects.all().filter(fk_user=user)
+        except Tests.DoesNotExist:
+            return response.Http404
+
+    def get(self, request, format=None):
+        tests = self.get_object(request.user)
+        serializer = TestsSerializer(tests, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        serializer = TestsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, format=None):
+        snippet = self.get_object()
+        serializer = TestsSerializer(snippet, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class comment(generics.ListAPIView):
     kintamasis = Comment.objects.all()
@@ -84,7 +113,7 @@ class question(generics.ListAPIView):
 
 class questionSingle(generics.ListAPIView):
     serializer_class = QuestionSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
     def get_queryset(self):
         return Question.objects.all().filter(fk_tests=self.kwargs['pk'])
 
