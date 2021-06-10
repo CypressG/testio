@@ -23,7 +23,7 @@ class Question(models.Model):
     #Tag can be also ManyToMany need to look up
     tags = models.ForeignKey(Tags,on_delete=models.CASCADE) 
     explanation = models.TextField()
-    fk_tests = models.ForeignKey(Tests,on_delete=models.CASCADE)
+    fk_tests = models.ForeignKey(Tests,on_delete=models.CASCADE,null = True,blank=True)
     fk_user = models.ForeignKey('auth.User',on_delete=models.CASCADE)
 
     def __str__(self):

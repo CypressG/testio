@@ -1,3 +1,4 @@
+from django.http import request
 from rest_framework import serializers
 from .models import Tags, Tests, Question, Answer, Comment, Rating
 from rest_framework import permissions
@@ -11,6 +12,13 @@ class TestsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tests
         fields = ['id','type']
+    def create(self, validated_data):
+        user = self.context['request'].user
+        tests = Tests.objects.create(
+        fk_user=user, 
+        **validated_data
+        )
+        return tests
 
 class CommentsSerializers(serializers.ModelSerializer):
     class Meta:

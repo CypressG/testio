@@ -11,9 +11,9 @@ from .models import Tags, Tests, Question, Answer, Comment, Rating
 from .serializers import AnswerSerializer, CommentsSerializers, QuestionSerializer, RatingSerializer, TagsSerializer, TestsSerializer
 
 # Create your views here.
-from rest_framework import generics, status
+from rest_framework import generics, serializers, status
 from rest_framework import permissions
-
+from rest_framework import mixins
 from rest_framework.decorators import APIView
 
 
@@ -25,9 +25,9 @@ Tags:
 
 Tests:
     1. Visi vartotojai gali matyti visus testus /done 
-    2. Vartotojas  gali sukurti savo testa 
-    3. Vartotojas gali istrinti savo testa
-    4. Vartotojas gali papildyti savo testa
+    2. Vartotojas  gali sukurti savo testa  /done
+    3. Vartotojas gali istrinti savo testa /done
+    4. Vartotojas gali papildyti savo testa /done
     5. Pasaliniai vartotojai gali spresti testa
     6. ... Matyti isprestus testus
 
@@ -61,45 +61,24 @@ class tagSingle(generics.ListCreateAPIView):
     def get_queryset(self):
         return Tags.objects.all().filter(fk_user=self.request.user)
 
-class test(generics.ListAPIView):
-    #
-    kintamasis = Tests.objects.all()
-    #
-    queryset = kintamasis
+class test(generics.ListCreateAPIView):
+    queryset = Tests.objects.all()
+    serializer_class = TestsSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    def get_queryset(self):
+        return Tests.objects.all().filter(fk_user=self.request.user)
+    
+
+class AllTests(generics.ListAPIView):
+    queryset = Tests.objects.all()
     serializer_class = TestsSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    
-
-class testSingle(APIView):
+class TestsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TestsSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self, user):
-        try:
-            return Tests.objects.all().filter(fk_user=user)
-        except Tests.DoesNotExist:
-            return response.Http404
-
-    def get(self, request, format=None):
-        tests = self.get_object(request.user)
-        serializer = TestsSerializer(tests, many=True)
-        return Response(serializer.data)
-    
-    def post(self, request, format=None):
-        serializer = TestsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def put(self, request, format=None):
-        snippet = self.get_object()
-        serializer = TestsSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    lookup_field = 'id'
+    def get_queryset(self):
+        return Tests.objects.all().filter(id=self.kwargs['id'])
 
 class comment(generics.ListAPIView):
     kintamasis = Comment.objects.all()
