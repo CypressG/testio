@@ -6,6 +6,7 @@ from django.db.models.base import Model
 class Tags(models.Model):
     id = models.BigAutoField(primary_key=True)
     tag = models.CharField(max_length=20)
+    fk_user = models.ForeignKey('auth.User',on_delete=models.CASCADE)
     def __str__(self):
         return self.tag
 

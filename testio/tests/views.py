@@ -33,6 +33,7 @@ Questions:
     1. Vartotojas gali ikelti klausima i testa
     2. Vartotojas gali istrinti klausima is testo
     3. Vartotojas gali redaguoti klausima
+    4. Vartotojas gali matyti visus klausimus is testo
     
 Answer:
     1. Vartotojas gali sukurti atsakymus priskirtus klausimui
@@ -45,16 +46,17 @@ Ratings:
 '''
 
 
-class tag(generics.ListCreateAPIView):
+class userCreatedTag(generics.ListCreateAPIView):
     kintamasis = Tags.objects.all()
     queryset = kintamasis
     serializer_class = TagsSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     
-class tagSingle(generics.RetrieveUpdateDestroyAPIView):
+class tagSingle(generics.ListCreateAPIView):
     kintamasis = Tags.objects.all()
-    queryset = kintamasis
     serializer_class = TagsSerializer
+    def get_queryset(self):
+        return Tags.objects.all().filter(fk_user=self.request.user)
 
 class test(generics.ListAPIView):
     #
@@ -70,8 +72,6 @@ class testSingle(generics.ListAPIView):
     def get_queryset(self):
         return Tests.objects.all().filter(fk_user=self.request.user)
 
-
-
 class comment(generics.ListAPIView):
     kintamasis = Comment.objects.all()
     queryset = kintamasis
@@ -86,7 +86,7 @@ class questionSingle(generics.ListAPIView):
     serializer_class = QuestionSerializer
     permission_classes = [permissions.IsAuthenticated]
     def get_queryset(self):
-        return Question.objects.all().filter(fk_user=self.request.user)
+        return Question.objects.all().filter(fk_tests=self.kwargs['pk'])
 
 class answer(generics.ListAPIView):
     kintamasis = Answer.objects.all()
