@@ -1,4 +1,3 @@
-import tests
 from django.http import response
 from rest_framework.response import Response
 from .permissions import IsOwnerOrReadOnly
@@ -14,7 +13,7 @@ from .serializers import AnswerSerializer, CommentsSerializers, QuestionSerializ
 from rest_framework import generics, serializers, status
 from rest_framework import permissions
 from rest_framework import mixins
-from rest_framework.decorators import APIView
+from rest_framework.decorators import APIView,ListCreateAPIView
 
 
 '''
@@ -28,14 +27,14 @@ Tests:
     2. Vartotojas  gali sukurti savo testa  /done
     3. Vartotojas gali istrinti savo testa /done
     4. Vartotojas gali papildyti savo testa /done
-    5. Pasaliniai vartotojai gali spresti testa
+    5. Pasaliniai vartotojai gali spresti testa 
     6. ... Matyti isprestus testus
 
 Questions:
-    1. Vartotojas gali ikelti klausima i testa
-    2. Vartotojas gali istrinti klausima is testo
-    3. Vartotojas gali redaguoti klausima
-    4. Vartotojas gali matyti visus klausimus is testo
+    1. Vartotojas gali ikelti klausima i testa /done reikia prafiltruoti FK pasirinkimus kad galima butu ikelt tik i savo.
+    2. Vartotojas gali istrinti klausima is testo /done
+    3. Vartotojas gali redaguoti klausima/done
+    4. Vartotojas gali matyti visus klausimus is testo /done
     
 Answer:
     1. Vartotojas gali sukurti atsakymus priskirtus klausimui
@@ -67,6 +66,14 @@ class test(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     def get_queryset(self):
         return Tests.objects.all().filter(fk_user=self.request.user)
+
+
+class AnswerToQuestion(generics.ListCreateAPIView):
+    serializer_class = AnswerSerializer
+    lookup_field='id'
+    def get_queryset(self):
+        return Answer.objects.all().filter(fk_question=self.kwargs['id'])
+    
     
 
 class AllTests(generics.ListAPIView):
@@ -74,11 +81,27 @@ class AllTests(generics.ListAPIView):
     serializer_class = TestsSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+
+
+class AllOneTestQuestions(generics.ListAPIView):
+    serializer_class=QuestionSerializer
+    lookup_field = 'id'
+    def get_queryset(self):
+        return Question.objects.all().filter(fk_tests=self.kwargs['id'])    
+  
+
 class TestsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TestsSerializer
     lookup_field = 'id'
     def get_queryset(self):
         return Tests.objects.all().filter(id=self.kwargs['id'])
+
+class QuestionsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = QuestionSerializer
+    lookup_field = 'id'
+    def get_queryset(self):
+        return Question.objects.all().filter(id=self.kwargs['id'])
+    
 
 class comment(generics.ListAPIView):
     kintamasis = Comment.objects.all()
