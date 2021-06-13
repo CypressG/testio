@@ -13,7 +13,7 @@ from .serializers import AnswerSerializer, CommentsSerializers, QuestionSerializ
 from rest_framework import generics, serializers, status
 from rest_framework import permissions
 from rest_framework import mixins
-from rest_framework.decorators import APIView,ListCreateAPIView
+from rest_framework.decorators import APIView
 
 
 '''
@@ -37,8 +37,8 @@ Questions:
     4. Vartotojas gali matyti visus klausimus is testo /done
     
 Answer:
-    1. Vartotojas gali sukurti atsakymus priskirtus klausimui
-    1. Vartotojas gali keisti atsakymus priskirtus klausimui
+    1. Vartotojas gali sukurti atsakymus priskirtus klausimui /done
+    1. Vartotojas gali keisti atsakymus priskirtus klausimui 
     1. Vartotojas gali istrinti atsakymus priskirtus klausimui
 
 Comments:
@@ -73,8 +73,14 @@ class AnswerToQuestion(generics.ListCreateAPIView):
     lookup_field='id'
     def get_queryset(self):
         return Answer.objects.all().filter(fk_question=self.kwargs['id'])
-    
-    
+        
+class AnswerUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AnswerSerializer
+    lookup_field='id'
+    def get_queryset(self):
+        return Answer.objects.all().filter(fk_question=self.kwargs['id'])
+
+
 
 class AllTests(generics.ListAPIView):
     queryset = Tests.objects.all()
@@ -88,7 +94,7 @@ class AllOneTestQuestions(generics.ListAPIView):
     lookup_field = 'id'
     def get_queryset(self):
         return Question.objects.all().filter(fk_tests=self.kwargs['id'])    
-  
+
 
 class TestsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TestsSerializer

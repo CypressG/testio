@@ -32,11 +32,11 @@ class Question(models.Model):
 class Answer(models.Model):
     id = models.BigAutoField(primary_key=True)
     fk_question = models.ForeignKey(Question ,on_delete=models.CASCADE)
-    fk_user = models.ForeignKey('auth.User',on_delete=models.CASCADE)
+    fk_user = models.ForeignKey('auth.User',on_delete=models.CASCADE, null=True, blank=True)
     right_answer = models.BooleanField(default=False)
     answer = models.CharField(max_length=200)
 
-    def __str__(self):
+    def str(self):
         return self.fk_question.question
 
 class Comment(models.Model):

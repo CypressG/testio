@@ -31,7 +31,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ['id','question','tags','explanation','fk_tests']
     def create(self,validated_data):
         user = self.context['request'].user
-       # questions2 = Tests.objects.all().filter(fk_user=user.
+        # questions2 = Tests.objects.all().filter(fk_user=user.
 
         questions = Question.objects.create(fk_user=user,
         **validated_data)
@@ -40,14 +40,14 @@ class QuestionSerializer(serializers.ModelSerializer):
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
-        fields = ['id','right_answer','answer']
+        fields = ['id','right_answer','answer','fk_question', 'fk_user']
         def create(self,validated_data):
-         user = self.context['request'].user         
-         answers = Answer.objects.create(
-         fk_user=user, 
-         **validated_data
-         )
-         return answers
+            user = self.context['request'].user
+            answers = Answer.objects.create(
+            fk_user=user
+            **validated_data
+            )
+            return answers
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating

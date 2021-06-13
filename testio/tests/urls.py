@@ -14,6 +14,7 @@ urlpatterns = [
     path('question/<int:id>',views.QuestionsUpdateDelete.as_view(),name='question_single'),
     path('question/<int:id>/answer',views.AnswerToQuestion.as_view(),name='Answer_to_question_single'),
     path('answer/',views.answer.as_view(),name='answer'),
+    path('answer/<int:id>/answerupdate',views.AnswerUpdateDelete.as_view(),name='answer'),
     path('rating/',views.rating.as_view(),name='rating'),
     
 ]
