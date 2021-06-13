@@ -7,6 +7,13 @@ class TagsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = ['id','tag']
+    def create(self, validated_data):
+        user = self.context['request'].user
+        tags = Tags.objects.create(
+        fk_user=user, 
+        **validated_data
+        )
+        return tags
 
 class TestsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,7 +30,14 @@ class TestsSerializer(serializers.ModelSerializer):
 class CommentsSerializers(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id','comment', 'fk_tests']    
+        fields = ['id','comment', 'fk_tests']
+    def create(self, validated_data):
+        user = self.context['request'].user
+        comment = Comment.objects.create(
+        fk_user=user, 
+        **validated_data
+        )
+        return comment
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +54,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
-        fields = ['id','right_answer','answer','fk_question', 'fk_user']
+        fields = ['id','right_answer','answer','fk_question']
         def create(self,validated_data):
             user = self.context['request'].user
             answers = Answer.objects.create(

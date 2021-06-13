@@ -16,5 +16,7 @@ urlpatterns = [
     path('answer/',views.answer.as_view(),name='answer'),
     path('answer/<int:id>/answerupdate',views.AnswerUpdateDelete.as_view(),name='answer'),
     path('rating/',views.rating.as_view(),name='rating'),
+    path('tests/<int:id>/comment',views.commenttest.as_view(),name='comments'),
+    path('tags/<int:id>/tagsupdate', views.TagsUpdateDelete.as_view(),name='tags'),
     
 ]

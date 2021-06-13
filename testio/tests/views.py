@@ -20,7 +20,7 @@ from rest_framework.decorators import APIView
 Tags:
     1. Vartotojas gali matyti visus tag'us /done 
     2. Vartotojas gali matyti savo kurtus tag'us /done
-    3. Vartotojas gali istrinti visus tag'us
+    3. Vartotojas gali istrinti visus tag'us /done
 
 Tests:
     1. Visi vartotojai gali matyti visus testus /done 
@@ -37,26 +37,33 @@ Questions:
     4. Vartotojas gali matyti visus klausimus is testo /done
     
 Answer:
-    1. Vartotojas gali sukurti atsakymus priskirtus klausimui /done
-    1. Vartotojas gali keisti atsakymus priskirtus klausimui 
-    1. Vartotojas gali istrinti atsakymus priskirtus klausimui
+    1. Vartotojas gali sukurti atsakymus priskirtus klausimui /done bet neranda fk_user
+    1. Vartotojas gali keisti atsakymus priskirtus klausimui /done bet neranda testo pagal id
+    1. Vartotojas gali istrinti atsakymus priskirtus klausimui/done kai veiks update
 
 Comments:
+    1.Vartotojas gali rasyti komenta prie testo /done
 
-Ratings:
 '''
 
 
 class userCreatedTag(generics.ListCreateAPIView):
-    kintamasis = Tags.objects.all()
-    queryset = kintamasis
+    queryset = Tags.objects.all()
     serializer_class = TagsSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def get_queryset(self):
+        return Tags.objects.all().filter(fk_user=self.request.user)
     
 class tagSingle(generics.ListCreateAPIView):
     kintamasis = Tags.objects.all()
     serializer_class = TagsSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    def get_queryset(self):
+        return Tags.objects.all().filter(fk_user=self.request.user)
+
+class TagsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = TagsSerializer
+    lookup_field = 'id'
     def get_queryset(self):
         return Tags.objects.all().filter(fk_user=self.request.user)
 
@@ -66,7 +73,6 @@ class test(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     def get_queryset(self):
         return Tests.objects.all().filter(fk_user=self.request.user)
-
 
 class AnswerToQuestion(generics.ListCreateAPIView):
     serializer_class = AnswerSerializer
@@ -80,13 +86,17 @@ class AnswerUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Answer.objects.all().filter(fk_question=self.kwargs['id'])
 
+class commenttest(generics.ListCreateAPIView):
+    serializer_class = CommentsSerializers
+    lookup_field = 'id'
+    def get_queryset(self):
+        return Comment.objects.all().filter(fk_user=self.kwargs['id'])
 
 
 class AllTests(generics.ListAPIView):
     queryset = Tests.objects.all()
     serializer_class = TestsSerializer
     permission_classes = [permissions.IsAuthenticated]
-
 
 
 class AllOneTestQuestions(generics.ListAPIView):
