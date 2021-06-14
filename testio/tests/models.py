@@ -38,7 +38,7 @@ class Answer(models.Model):
     right_answer = models.BooleanField(default = False)
     answer = models.CharField(max_length = 200)
 
-    def str(self):
+    def __str__(self):
         return self.fk_question.question
 
 class Comment(models.Model):
