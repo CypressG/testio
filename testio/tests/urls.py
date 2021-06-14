@@ -8,7 +8,6 @@ urlpatterns = [
     path('user/tests/<int:id>',views.TestsUpdateDelete.as_view(),name='tests'),
     path('user/tests/<int:id>/questions',views.AllOneTestQuestions.as_view(),name='tests'),
     path('tests/',views.AllTests.as_view(),name='tests'),
-    #path('test/',views.AllTests.as_view(),name='tests'),
     path('comments/',views.comment.as_view(),name='comments'),
     path('question/',views.question.as_view(),name='question'),
     path('question/<int:id>',views.QuestionsUpdateDelete.as_view(),name='question_single'),

@@ -115,6 +115,7 @@ class TestsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
 class QuestionsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = QuestionSerializer
     lookup_field = 'id'
+    permission_classes =[IsOwnerOrReadOnly]
     def get_queryset(self):
         return Question.objects.all().filter(id=self.kwargs['id'])
     
