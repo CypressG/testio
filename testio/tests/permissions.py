@@ -3,7 +3,16 @@ from rest_framework import permissions
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
     Custom permission to only allow owners of an object to edit it.
-    """
+        """
+    '''
+    * Custom permission to only allow owners of an object to edit it.
+    *
+    * 
+    * @author DevLab
+    *  Since 1.0 
+    * Version 1.0 
+    * 
+    '''
 
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,

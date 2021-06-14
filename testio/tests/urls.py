@@ -1,7 +1,15 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-
+'''
+ * Class which defines URL'S
+ *
+ * 
+ * @author DevLab
+ *  Since 1.0 
+ * Version 1.0 
+ * 
+'''
 urlpatterns = [
     path('tags/', views.UserCreatedTag.as_view(),name='tags'),
     path('tags/<int:pk>', views.TagSingle.as_view(),name='tags'),

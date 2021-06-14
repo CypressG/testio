@@ -2,7 +2,15 @@ from django.db import models
 from django.db.models.base import Model
 
 # Create your models here.
-
+'''
+ * Class, where we write about our Database
+ *
+ * 
+ * @author DevLab
+ * Since 1.0 
+ * Version 1.0 
+ * 
+'''
 class Tag(models.Model):
     id = models.BigAutoField(primary_key = True)
     tag = models.CharField(max_length = 20)

@@ -43,7 +43,15 @@ Comments:
     1.Vartotojas gali rasyti komenta prie testo                 /done
 
 '''
-
+'''
+ * Class which defines functions
+ *
+ * 
+ * @author DevLab
+ *  Since 1.0 
+ * Version 1.0 
+ * 
+'''
 class UserCreatedTag(generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagsSerializer
