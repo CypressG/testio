@@ -44,96 +44,96 @@ Comments:
 
 '''
 
-class userCreatedTag(generics.ListCreateAPIView):
+class UserCreatedTag(generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagsSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get_queryset(self):
         return Tag.objects.all().filter(fk_user=self.request.user)
 
-class tagSingle(generics.ListCreateAPIView):
+class TagSingle(generics.ListCreateAPIView):
     kintamasis = Tag.objects.all()
     serializer_class = TagsSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     def get_queryset(self):
         return Tag.objects.all().filter(fk_user=self.request.user)
 
-class tagUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+class TagUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TagsSerializer
     lookup_field = 'id'
     def get_queryset(self):
         return Tag.objects.all().filter(fk_user=self.request.user)
 
-class test(generics.ListCreateAPIView):
+class TestView(generics.ListCreateAPIView):
     queryset = Test.objects.all()
     serializer_class = TestsSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
     def get_queryset(self):
         return Test.objects.all().filter(fk_user=self.request.user)
 
-class answerToSingleQuestion(generics.ListCreateAPIView):
+class AnswerToSingleQuestion(generics.ListCreateAPIView):
     serializer_class = AnswerSerializer
     lookup_field='id'
     def get_queryset(self):
         return Answer.objects.all().filter(fk_question=self.kwargs['id'])
 
-class answerUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+class AnswerUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AnswerSerializer
     lookup_field = 'id'
     def get_queryset(self):
         return Answer.objects.all().filter(fk_question=self.kwargs['id'])
 
-class commenttest(generics.ListCreateAPIView):
+class CommentTest(generics.ListCreateAPIView):
     serializer_class = CommentsSerializer
     lookup_field = 'id'
     def get_queryset(self):
         return Comment.objects.all().filter(fk_user=self.kwargs['id'])
 
-class allTests(generics.ListAPIView):
+class AllTests(generics.ListAPIView):
     queryset = Test.objects.all()
     serializer_class = TestsSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
-class allOneTestQuestions(generics.ListAPIView):
+class AllOneTestQuestions(generics.ListAPIView):
     serializer_class = QuestionSerializer
     lookup_field = 'id'
     def get_queryset(self):
         return Question.objects.all().filter(fk_tests=self.kwargs['id'])    
 
-class testUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+class TestUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TestsSerializer
     lookup_field = 'id'
     def get_queryset(self):
         return Test.objects.all().filter(id=self.kwargs['id'])
 
-class questionsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+class QuestionsUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = QuestionSerializer
     lookup_field = 'id'
     permission_classes =[IsOwnerOrReadOnly]
     def get_queryset(self):
         return Question.objects.all().filter(id=self.kwargs['id'])
 
-class comment(generics.ListAPIView):
+class Comment(generics.ListAPIView):
     kintamasis = Comment.objects.all()
     queryset = kintamasis
     serializer_class = CommentsSerializer
 
-class question(generics.ListAPIView):
+class Question(generics.ListAPIView):
     kintamasis = Question.objects.all()
     queryset = kintamasis
     serializer_class = QuestionSerializer
 
-class questionSingle(generics.ListAPIView):
+class QuestionSingle(generics.ListAPIView):
     serializer_class = QuestionSerializer
     def get_queryset(self):
         return Question.objects.all().filter(fk_tests=self.kwargs['pk'])
 
-class answer(generics.ListAPIView):
+class Answer(generics.ListAPIView):
     kintamasis = Answer.objects.all()
     queryset = kintamasis
     serializer_class = AnswerSerializer
 
-class rating(generics.ListAPIView):
+class Rating(generics.ListAPIView):
     kintamasis = Rating.objects.all()
     queryset = kintamasis
     serializer_class = RatingSerializer
