@@ -1,41 +1,38 @@
 from django.http import request
 from rest_framework import serializers
-from .models import Tags, Tests, Question, Answer, Comment, Rating
+from . models import Tag, Test, Question, Answer, Comment, Rating
 from rest_framework import permissions
 
 class TagsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tags
+        model = Tag
         fields = ['id','tag']
     def create(self, validated_data):
         user = self.context['request'].user
-        tags = Tags.objects.create(
-        fk_user=user, 
-        **validated_data
+        tags = Tag.objects.create(
+            fk_user=user, **validated_data
         )
         return tags
 
 class TestsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tests
+        model = Test
         fields = ['id','type']
     def create(self, validated_data):
         user = self.context['request'].user
-        tests = Tests.objects.create(
-        fk_user=user, 
-        **validated_data
+        tests = Test.objects.create(
+            fk_user=user, **validated_data
         )
         return tests
 
-class CommentsSerializers(serializers.ModelSerializer):
+class CommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id','comment', 'fk_tests']
     def create(self, validated_data):
         user = self.context['request'].user
         comment = Comment.objects.create(
-        fk_user=user, 
-        **validated_data
+            fk_user=user, **validated_data
         )
         return comment
 
@@ -45,10 +42,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ['id','question','tags','explanation','fk_tests']
     def create(self,validated_data):
         user = self.context['request'].user
-        # questions2 = Tests.objects.all().filter(fk_user=user.
-
-        questions = Question.objects.create(fk_user=user,
-        **validated_data)
+        questions = Question.objects.create(
+            fk_user=user,**validated_data)
         return questions
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -58,12 +53,11 @@ class AnswerSerializer(serializers.ModelSerializer):
         def create(self,validated_data):
             user = self.context['request'].user
             answers = Answer.objects.create(
-            fk_user=user
-            **validated_data
+                fk_user=user, **validated_data
             )
             return answers
+
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ['id','rating']
-
